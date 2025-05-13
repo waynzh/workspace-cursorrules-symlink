@@ -4,7 +4,7 @@
   "description": "A tool to symlink Cursor rules from multiple projects in a workspace to the root directory",
   "main": "bin/workspace-cursorrules-symlink.js",
   "bin": {
-    "workspace-cursorrules-symlink": "./bin/workspace-cursorrules-symlink.js"
+    "workspace-cursorrules-symlink": "bin/workspace-cursorrules-symlink.js"
   },
   "scripts": {
     "start": "node ./bin/workspace-cursorrules-symlink.js"
@@ -25,10 +25,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/waynzh/workspace-cursorrules-symlink"
+    "url": "git+https://github.com/waynzh/workspace-cursorrules-symlink.git"
   },
   "bugs": {
     "url": "https://github.com/waynzh/workspace-cursorrules-symlink/issues"
   },
   "homepage": "https://github.com/waynzh/workspace-cursorrules-symlink"
-} 
+}
