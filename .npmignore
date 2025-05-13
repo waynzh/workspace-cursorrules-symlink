@@ -1,0 +1,25 @@
+# 测试文件
+test/
+*.test.js
+*.spec.js
+
+# 开发工具配置
+.eslintrc
+.prettierrc
+.editorconfig
+.vscode/
+.idea/
+
+# 文档（除了README.md）
+docs/
+PUBLISH.md
+
+# Git相关
+.git/
+.gitignore
+
+# 其他
+.DS_Store
+*.log
+tmp/
+temp/ 
