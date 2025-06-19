@@ -1,6 +1,6 @@
 {
   "name": "workspace-cursorrules-symlink",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tool to symlink Cursor rules from multiple projects in a workspace to the root directory",
   "main": "bin/workspace-cursorrules-symlink.js",
   "bin": {
