@@ -196,6 +196,82 @@ function getAllFiles(dir) {
   return files;
 }
 
+// Function to create or update VSCode settings.json
+function createVSCodeSettings() {
+  const vscodeDir = path.join(rootDir, ".vscode");
+  const settingsPath = path.join(vscodeDir, "settings.json");
+
+  // ESLint configuration to add
+  const eslintConfig = {
+    "eslint.workingDirectories": [{ mode: "auto" }],
+  };
+
+  // Create .vscode directory if it doesn't exist
+  if (!fs.existsSync(vscodeDir)) {
+    fs.mkdirSync(vscodeDir, { recursive: true });
+    console.log(`${icon.check} Created .vscode directory`);
+  }
+
+  // Check if settings.json already exists
+  if (fs.existsSync(settingsPath)) {
+    try {
+      // Read existing settings
+      const existingContent = fs.readFileSync(settingsPath, "utf8");
+      let existingSettings = {};
+
+      // Try to parse existing JSON, handle empty file or invalid JSON
+      if (existingContent.trim()) {
+        try {
+          existingSettings = JSON.parse(existingContent);
+        } catch (parseError) {
+          console.log(
+            `${icon.info} Existing settings.json has invalid JSON format, will be overwritten`
+          );
+        }
+      }
+
+      // Check if eslint.workingDirectories already exists
+      if (existingSettings["eslint.workingDirectories"]) {
+        console.log(
+          `${icon.info} ESLint working directories already configured in .vscode/settings.json`
+        );
+        return false; // No changes made
+      } else {
+        // Merge with existing settings
+        const mergedSettings = { ...existingSettings, ...eslintConfig };
+        fs.writeFileSync(settingsPath, JSON.stringify(mergedSettings, null, 2));
+        console.log(
+          `${icon.check} Updated .vscode/settings.json with ESLint configuration`
+        );
+        return true; // Changes made
+      }
+    } catch (err) {
+      console.error(
+        `${icon.error} Failed to read/update .vscode/settings.json: ${err.message}`
+      );
+      return false;
+    }
+  } else {
+    // Create new settings.json file
+    try {
+      fs.writeFileSync(settingsPath, JSON.stringify(eslintConfig, null, 2));
+      console.log(
+        `${icon.check} Created .vscode/settings.json with ESLint configuration`
+      );
+      return true; // Changes made
+    } catch (err) {
+      console.error(
+        `${icon.error} Failed to create .vscode/settings.json: ${err.message}`
+      );
+      return false;
+    }
+  }
+}
+
+// Create or update VSCode settings
+console.log(`\n${icon.search} Setting up VSCode configuration...`);
+const vscodeSettingsUpdated = createVSCodeSettings();
+
 // Display summary information
 console.log(`\n${icon.stats} Sync Results:`);
 console.log(`  - Total projects: ${projectDirs.length}`);
@@ -205,4 +281,9 @@ console.log(`  - Skipped existing: ${skippedSymlinks}`);
 if (errorSymlinks > 0) {
   console.log(`  - Failed: ${errorSymlinks}`);
 }
+console.log(
+  `  - VSCode settings: ${
+    vscodeSettingsUpdated ? "Updated" : "No changes needed"
+  }`
+);
 console.log(`${icon.done} Done!`);

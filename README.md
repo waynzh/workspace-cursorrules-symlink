@@ -13,6 +13,7 @@ This tool creates symbolic links from each project's rules to the workspace root
 - Automatically scans all projects in the workspace folder
 - Identifies `.cursor/rules` directories in each project
 - Creates organized symbolic links categorized by project name in the root directory
+- Auto-configures VSCode settings for multi-project workspaces
 - Provides detailed synchronization reports
 
 ## Installation
@@ -51,9 +52,10 @@ Examples:
   npx workspace-cursorrules-symlink --ascii
 ```
 
-## Example
+## What It Does
 
-The result creates a structure like this in the workspace root:
+### 1. Cursor Rules Symlinks
+The tool creates a structure like this in the workspace root:
 
 ```
 .cursor/rules/
@@ -66,3 +68,14 @@ The result creates a structure like this in the workspace root:
 └── project-C/
     └── rule4.mdc (symlink)
 ```
+
+### 2. VSCode ESLint Configuration
+Automatically creates or updates `.vscode/settings.json` with:
+
+```json
+{
+  "eslint.workingDirectories": [{ "mode": "auto" }]
+}
+```
+
+This resolves ESLint errors in multi-project workspaces by automatically detecting the correct working directories for each project.
